@@ -3,7 +3,45 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EasySocket", "EasySocket\EasySocket.vcxproj", "{4544CCC8-E94C-4705-8985-39EC43E04341}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EasyFTPClient", "EasyFTPClient\EasyFTPClient.vcxproj", "{F472A207-AA05-4E45-85A6-1FEADC868BB5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EasyFTPServer", "EasyFTPServer\EasyFTPServer.vcxproj", "{35C6290B-1329-4E1F-A234-A90D6423448F}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4544CCC8-E94C-4705-8985-39EC43E04341}.Debug|x64.ActiveCfg = Debug|x64
+		{4544CCC8-E94C-4705-8985-39EC43E04341}.Debug|x64.Build.0 = Debug|x64
+		{4544CCC8-E94C-4705-8985-39EC43E04341}.Debug|x86.ActiveCfg = Debug|Win32
+		{4544CCC8-E94C-4705-8985-39EC43E04341}.Debug|x86.Build.0 = Debug|Win32
+		{4544CCC8-E94C-4705-8985-39EC43E04341}.Release|x64.ActiveCfg = Release|x64
+		{4544CCC8-E94C-4705-8985-39EC43E04341}.Release|x64.Build.0 = Release|x64
+		{4544CCC8-E94C-4705-8985-39EC43E04341}.Release|x86.ActiveCfg = Release|Win32
+		{4544CCC8-E94C-4705-8985-39EC43E04341}.Release|x86.Build.0 = Release|Win32
+		{F472A207-AA05-4E45-85A6-1FEADC868BB5}.Debug|x64.ActiveCfg = Debug|x64
+		{F472A207-AA05-4E45-85A6-1FEADC868BB5}.Debug|x64.Build.0 = Debug|x64
+		{F472A207-AA05-4E45-85A6-1FEADC868BB5}.Debug|x86.ActiveCfg = Debug|Win32
+		{F472A207-AA05-4E45-85A6-1FEADC868BB5}.Debug|x86.Build.0 = Debug|Win32
+		{F472A207-AA05-4E45-85A6-1FEADC868BB5}.Release|x64.ActiveCfg = Release|x64
+		{F472A207-AA05-4E45-85A6-1FEADC868BB5}.Release|x64.Build.0 = Release|x64
+		{F472A207-AA05-4E45-85A6-1FEADC868BB5}.Release|x86.ActiveCfg = Release|Win32
+		{F472A207-AA05-4E45-85A6-1FEADC868BB5}.Release|x86.Build.0 = Release|Win32
+		{35C6290B-1329-4E1F-A234-A90D6423448F}.Debug|x64.ActiveCfg = Debug|x64
+		{35C6290B-1329-4E1F-A234-A90D6423448F}.Debug|x64.Build.0 = Debug|x64
+		{35C6290B-1329-4E1F-A234-A90D6423448F}.Debug|x86.ActiveCfg = Debug|Win32
+		{35C6290B-1329-4E1F-A234-A90D6423448F}.Debug|x86.Build.0 = Debug|Win32
+		{35C6290B-1329-4E1F-A234-A90D6423448F}.Release|x64.ActiveCfg = Release|x64
+		{35C6290B-1329-4E1F-A234-A90D6423448F}.Release|x64.Build.0 = Release|x64
+		{35C6290B-1329-4E1F-A234-A90D6423448F}.Release|x86.ActiveCfg = Release|Win32
+		{35C6290B-1329-4E1F-A234-A90D6423448F}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
