@@ -33,7 +33,7 @@ private:
 	void cleanWSA();
 public:
 
-	EasySocket(int port, int addressFamily, int type, int protocol = 0);
+	EasySocket(int addressFamily, int type, int protocol = 0);
 	~EasySocket();
 	void Connect(std::string host, int port);
 };

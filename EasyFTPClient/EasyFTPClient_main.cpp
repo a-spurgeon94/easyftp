@@ -5,6 +5,6 @@ using namespace std;
 
 int main() {
 	EasySocket socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	socket.Connect("speets.ca", 80);
+	socket.Connect("127.0.0.1", 80);
 	cout << "EasyFTPClient" << endl;
 }
