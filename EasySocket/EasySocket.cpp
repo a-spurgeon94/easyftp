@@ -20,9 +20,14 @@ EasySocket::EasySocket(int addressFamily, int type, int protocol) {
 
 	socketAddress = { 0 };
 	socketAddress.sin_family = addressFamily;
-	// Use 'printable to network', inet_addr deprecated.
-	inet_pton(addressFamily, "127.0.0.1", &(socketAddress.sin_addr));
+}
 
+EasySocket::EasySocket(SOCKET socket) {
+	int result = WSAStartup(MAKEWORD(2, 2), &wsaData);
+	if (result != NO_ERROR)
+		throw new std::exception("WSAStartup has failed");
+
+	hSocket = socket;
 }
 
 // Destructor
@@ -44,8 +49,40 @@ void EasySocket::Connect(std::string host, int port) {
 
 std::vector<char> EasySocket::Receive(int flags) {
 	std::vector<char> buffer(1024);
-	buffer.resize(recv(hSocket, buffer.data(), buffer.size(), flags));
+	int err = WSAGetLastError();
+	int numBytes = recv(hSocket, buffer.data(), buffer.size(), flags);
+	if (numBytes == SOCKET_ERROR) {
+		err = WSAGetLastError();
+		throw new std::exception("Receive has failed");
+	}
+	buffer.resize(numBytes);
 	return buffer;
+}
+
+void EasySocket::Listen(int backlog) {
+	if (listen(hSocket, backlog) == SOCKET_ERROR) {
+		throw new std::exception("Listen has failed");
+	}
+}
+
+void EasySocket::Bind(std::string host, int port, int address_family) {
+	sockaddr_in serverAddress = { 0 };
+	serverAddress.sin_family = address_family;
+	serverAddress.sin_port = htons(port);
+	inet_pton(address_family, host.c_str(), &serverAddress.sin_addr.s_addr);
+
+	if (bind(hSocket, (SOCKADDR*)&serverAddress, sizeof(serverAddress)) == SOCKET_ERROR) {
+		int x = WSAGetLastError();
+		throw new std::exception("Bind has failed");
+	}
+}
+
+EasySocket EasySocket::Accept() {
+	SOCKET hAccepted = SOCKET_ERROR;
+	while (hAccepted == SOCKET_ERROR) {
+		hAccepted = accept(hSocket, NULL, NULL);
+	}
+	return EasySocket(hAccepted);
 }
 
 // --------------------------------- //

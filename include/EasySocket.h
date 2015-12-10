@@ -19,6 +19,7 @@
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #include <vector>
+#include <array>
 
 // Need to link with Ws2_32.lib
 #pragma comment(lib, "ws2_32.lib")
@@ -32,6 +33,7 @@ private:
 
 	void cleanSocket();
 	void cleanWSA();
+	EasySocket(SOCKET);
 public:
 
 	EasySocket(int addressFamily, int type, int protocol = 0);
@@ -43,6 +45,12 @@ public:
 	int Send(T buffer, int flags = 0);
 
 	std::vector<char> Receive(int flags = 0);
+
+	void Listen(int backlog = SOMAXCONN);
+
+	void Bind(std::string host, int port, int af = 0);
+
+	EasySocket Accept();
 };
 
 // Had to move this to header because of templates.
