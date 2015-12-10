@@ -42,6 +42,16 @@ void EasySocket::Connect(std::string host, int port) {
 	}
 }
 
+int EasySocket::Send(std::vector<char> buffer, int flags) {
+	return send(hSocket, buffer.data(), buffer.size(), flags);
+}
+
+std::vector<char> EasySocket::Receive(int flags) {
+	std::vector<char> buffer(1024);
+	buffer.resize(recv(hSocket, buffer.data(), buffer.size(), flags));
+	return buffer;
+}
+
 // --------------------------------- //
 //         Private Functions         //
 // --------------------------------- //

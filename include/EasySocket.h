@@ -18,6 +18,7 @@
 #include <exception>
 #include <WinSock2.h>
 #include <WS2tcpip.h>
+#include <vector>
 
 // Need to link with Ws2_32.lib
 #pragma comment(lib, "ws2_32.lib")
@@ -36,5 +37,7 @@ public:
 	EasySocket(int addressFamily, int type, int protocol = 0);
 	~EasySocket();
 	void Connect(std::string host, int port);
+	int Send(std::vector<char> buffer, int flags = 0);
+	std::vector<char> Receive(int flags = 0);
 };
 #endif
