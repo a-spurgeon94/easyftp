@@ -1,7 +1,7 @@
 #include <iostream>
-#include <EasySocket.h>
+#include <EasySocket.hpp>
 using namespace std;
-
+using namespace easysock;
 
 int main() {
 	cout << "EasyFTPServer" << endl;

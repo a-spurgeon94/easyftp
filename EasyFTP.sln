@@ -6,14 +6,8 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EasySocket", "EasySocket\EasySocket.vcxproj", "{4544CCC8-E94C-4705-8985-39EC43E04341}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EasyFTPClient", "EasyFTPClient\EasyFTPClient.vcxproj", "{F472A207-AA05-4E45-85A6-1FEADC868BB5}"
-	ProjectSection(ProjectDependencies) = postProject
-		{4544CCC8-E94C-4705-8985-39EC43E04341} = {4544CCC8-E94C-4705-8985-39EC43E04341}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EasyFTPServer", "EasyFTPServer\EasyFTPServer.vcxproj", "{35C6290B-1329-4E1F-A234-A90D6423448F}"
-	ProjectSection(ProjectDependencies) = postProject
-		{4544CCC8-E94C-4705-8985-39EC43E04341} = {4544CCC8-E94C-4705-8985-39EC43E04341}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,7 @@
 #include <iostream>
-#include <EasySocket.h>
+#include <EasySocket.hpp>
 using namespace std;
-
+using namespace easysock;
 
 int main() {
 	EasySocket socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
