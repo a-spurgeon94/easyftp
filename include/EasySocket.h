@@ -36,8 +36,19 @@ public:
 
 	EasySocket(int addressFamily, int type, int protocol = 0);
 	~EasySocket();
+
 	void Connect(std::string host, int port);
-	int Send(std::vector<char> buffer, int flags = 0);
+
+	template <typename T>
+	int Send(T buffer, int flags = 0);
+
 	std::vector<char> Receive(int flags = 0);
 };
+
+// Had to move this to header because of templates.
+template <typename T>
+int EasySocket::Send(T buffer, int flags) {
+	return send(hSocket, buffer.data(), buffer.size(), flags);
+}
+
 #endif
