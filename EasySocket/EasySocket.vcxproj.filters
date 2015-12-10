@@ -21,5 +21,16 @@
     <ClCompile Include="EasySocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EasyServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EasyClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\EasySocket.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,10 +1,19 @@
-#include "EasySocket.h"
+#include "EasySocket.hpp"
+using namespace easysock;
 
 /** @file EasySocket.cpp
 *   @author Anthony Spurgeon, Ryan Speets
 *   @date 08-12-2015
 *   @brief Wrapper implementation for the Socket library API
 */
+
+// Default constructor - currently, having a member of EasySocket in EasyServer and EasyClient
+// makes the compiler complain that we need a default constructor in EasySocket so when they
+// are initialized, the members are too. This might suffice, not sure if it'll create copies
+// that get destroyed immediately anyway though.
+EasySocket::EasySocket() {
+	EasySocket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+}
 
 // Constructor
 EasySocket::EasySocket(const int addressFamily, const int type, const int protocol) {

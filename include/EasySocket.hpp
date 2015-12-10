@@ -24,11 +24,11 @@
 #pragma comment(lib, "ws2_32.lib")
 
 
-namespace EasySock {
+namespace easysock {
 	enum class Type { TCP = 1, UDP = 2 };
-}	// namespace
 
-	// Encapsulates Socket library information and handles low-level 
+
+	// Encapsulates Socket library information and handles low-level interactions
 	class EasySocket {
 		// Data
 	private:
@@ -41,6 +41,7 @@ namespace EasySock {
 		EasySocket(SOCKET);
 	public:
 
+		EasySocket();
 		EasySocket(const int addressFamily, const int type, const int protocol = 0);
 		~EasySocket();
 
@@ -55,22 +56,34 @@ namespace EasySock {
 		EasySocket Accept() const;
 	};
 
+
 	// Encapsulates Server information related to sockets and responding to clients
 	class EasyServer {
 		// Data
 	private:
 		EasySocket easySocket;
+		std::string host;
+		int port;
 
 	public:
-		EasyServer(std::string, int port);
+
+		EasyServer() = delete;
+		EasyServer(std::string host, int port, Type type);
 		~EasyServer();
 	};
+
 
 	// Encapsulates Client information related to sockets and interacting with a server
 	class EasyClient {
 		// Data
 	private:
 		EasySocket easySocket;
+
+	public:
+
+		EasyClient() = delete;
+		EasyClient(std::string host, int port, Type type);
+		~EasyClient();
 	};
 
 	// Had to move this to header because of templates.
@@ -78,4 +91,5 @@ namespace EasySock {
 	int EasySocket::Send(const T buffer, const int flags) {
 		return send(hSocket, buffer.data(), buffer.size(), flags);
 	}
+}
 #endif

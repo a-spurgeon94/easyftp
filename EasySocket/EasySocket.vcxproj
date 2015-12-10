@@ -153,7 +153,12 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EasyClient.cpp" />
+    <ClCompile Include="EasyServer.cpp" />
     <ClCompile Include="EasySocket.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\EasySocket.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
