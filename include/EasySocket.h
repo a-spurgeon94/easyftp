@@ -19,7 +19,6 @@
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #include <vector>
-#include <array>
 
 // Need to link with Ws2_32.lib
 #pragma comment(lib, "ws2_32.lib")
@@ -31,31 +30,31 @@ private:
 	WSAData wsaData;
 	sockaddr_in socketAddress;
 
-	void cleanSocket();
-	void cleanWSA();
+	void cleanSocket() const;
+	static void cleanWSA();
 	EasySocket(SOCKET);
 public:
 
-	EasySocket(int addressFamily, int type, int protocol = 0);
+	EasySocket(const int addressFamily, const int type, const int protocol = 0);
 	~EasySocket();
 
-	void Connect(std::string host, int port);
+	void Connect(const std::string host, const int port);
 
 	template <typename T>
-	int Send(T buffer, int flags = 0);
+	int Send(const T buffer, const int flags = 0);
 
-	std::vector<char> Receive(int flags = 0);
+	std::vector<char> Receive(const int flags = 0) const;
 
-	void Listen(int backlog = SOMAXCONN);
+	void Listen(const int backlog = SOMAXCONN) const;
 
-	void Bind(std::string host, int port, int af = 0);
+	void Bind(const std::string host, const int port, const int af = 0) const;
 
-	EasySocket Accept();
+	EasySocket Accept() const;
 };
 
 // Had to move this to header because of templates.
 template <typename T>
-int EasySocket::Send(T buffer, int flags) {
+int EasySocket::Send(const T buffer, const int flags) {
 	return send(hSocket, buffer.data(), buffer.size(), flags);
 }
 

@@ -7,25 +7,25 @@
 */
 
 // Constructor
-EasySocket::EasySocket(int addressFamily, int type, int protocol) {
+EasySocket::EasySocket(const int addressFamily, const int type, const int protocol) {
 	int result = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (result != NO_ERROR)
-		throw new std::exception("WSAStartup has failed");
+		throw std::exception("WSAStartup has failed");
 
 	hSocket = socket(addressFamily, type, protocol);
 
 	if (hSocket == INVALID_SOCKET) {
-		throw new std::exception("socket has failed");
+		throw std::exception("socket has failed");
 	}
 
 	socketAddress = { 0 };
 	socketAddress.sin_family = addressFamily;
 }
 
-EasySocket::EasySocket(SOCKET socket) {
+EasySocket::EasySocket(const SOCKET socket) {
 	int result = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (result != NO_ERROR)
-		throw new std::exception("WSAStartup has failed");
+		throw std::exception("WSAStartup has failed");
 
 	hSocket = socket;
 }
@@ -36,51 +36,52 @@ EasySocket::~EasySocket() {
 	cleanWSA(); 
 }
 
-void EasySocket::Connect(std::string host, int port) {
+void EasySocket::Connect(const std::string host, const int port) {
 	// Create the server address
 	socketAddress.sin_port = htons(port);
 	inet_pton(AF_INET, host.c_str(), &socketAddress.sin_addr.s_addr);
 
 	// connect the socket
-	if (connect(hSocket, (SOCKADDR*)&socketAddress, sizeof(socketAddress)) == SOCKET_ERROR) {
-		throw new std::exception("Connect has failed");
+	if (connect(hSocket, reinterpret_cast<SOCKADDR*>(&socketAddress), sizeof(socketAddress)) == SOCKET_ERROR) {
+		throw std::exception("Connect has failed");
 	}
 }
 
-std::vector<char> EasySocket::Receive(int flags) {
+std::vector<char> EasySocket::Receive(const int flags) const
+{
 	std::vector<char> buffer(1024);
-	int err = WSAGetLastError();
 	int numBytes = recv(hSocket, buffer.data(), buffer.size(), flags);
 	if (numBytes == SOCKET_ERROR) {
-		err = WSAGetLastError();
-		throw new std::exception("Receive has failed");
+		throw std::exception("Receive has failed");
 	}
 	buffer.resize(numBytes);
 	return buffer;
 }
 
-void EasySocket::Listen(int backlog) {
+void EasySocket::Listen(const int backlog) const
+{
 	if (listen(hSocket, backlog) == SOCKET_ERROR) {
-		throw new std::exception("Listen has failed");
+		throw std::exception("Listen has failed");
 	}
 }
 
-void EasySocket::Bind(std::string host, int port, int address_family) {
+void EasySocket::Bind(const std::string host, const int port, const int address_family) const
+{
 	sockaddr_in serverAddress = { 0 };
 	serverAddress.sin_family = address_family;
 	serverAddress.sin_port = htons(port);
 	inet_pton(address_family, host.c_str(), &serverAddress.sin_addr.s_addr);
 
-	if (bind(hSocket, (SOCKADDR*)&serverAddress, sizeof(serverAddress)) == SOCKET_ERROR) {
-		int x = WSAGetLastError();
-		throw new std::exception("Bind has failed");
+	if (bind(hSocket, reinterpret_cast<SOCKADDR*>(&serverAddress), sizeof(serverAddress)) == SOCKET_ERROR) {
+		throw std::exception("Bind has failed");
 	}
 }
 
-EasySocket EasySocket::Accept() {
+EasySocket EasySocket::Accept() const
+{
 	SOCKET hAccepted = SOCKET_ERROR;
 	while (hAccepted == SOCKET_ERROR) {
-		hAccepted = accept(hSocket, NULL, NULL);
+		hAccepted = accept(hSocket, nullptr, nullptr);
 	}
 	return EasySocket(hAccepted);
 }
@@ -89,7 +90,7 @@ EasySocket EasySocket::Accept() {
 //         Private Functions         //
 // --------------------------------- //
 
-void EasySocket::cleanSocket() {
+void EasySocket::cleanSocket() const {
 	closesocket(hSocket);	// Close socket handle
 }
 
