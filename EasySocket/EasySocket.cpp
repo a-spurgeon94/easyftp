@@ -14,6 +14,10 @@ EasySocket::EasySocket(int port, int addressFamily, int type, int protocol) {
 
 	hSocket = socket(addressFamily, type, protocol);
 
+	if (hSocket == INVALID_SOCKET) {
+		// Error occured
+	}
+
 	socketAddress = { 0 };
 	socketAddress.sin_family = addressFamily;
 	socketAddress.sin_port = htons(port);
@@ -26,6 +30,20 @@ EasySocket::EasySocket(int port, int addressFamily, int type, int protocol) {
 EasySocket::~EasySocket() {
 	cleanSocket();	
 	cleanWSA(); 
+}
+
+void EasySocket::Connect(std::string host, int port) {
+	// Create the server address
+	sockaddr_in serverAddress = { 0 };
+	serverAddress.sin_family = AF_INET;
+	serverAddress.sin_port = htons(port);
+	serverAddress.sin_addr.s_addr = inet_addr(host.c_str());
+
+	// connect the socket
+	if (connect(hSocket, (SOCKADDR*)&serverAddress, sizeof(serverAddress)) == SOCKET_ERROR) {
+		// Error
+		return;
+	}
 }
 
 // --------------------------------- //
