@@ -4,8 +4,12 @@ using namespace easysock;
 /** @file EasySocket.cpp
 *   @author Anthony Spurgeon, Ryan Speets
 *   @date 08-12-2015
-*   @brief Wrapper implementation for the Socket library API
+*   @brief Wrapper for the Win32 Socket Library API - Implementation
 */
+
+// --------------------------------- //
+//            Constructors           //
+// --------------------------------- //
 
 // Default constructor - currently, having a member of EasySocket in EasyServer and EasyClient
 // makes the compiler complain that we need a default constructor in EasySocket so when they
@@ -31,7 +35,12 @@ EasySocket::EasySocket(const int addressFamily, const int type, const int protoc
 	socketAddress.sin_family = addressFamily;
 }
 
+<<<<<<< HEAD
 EasySocket::EasySocket(SOCKET socket, sockaddr_in addr) {
+=======
+
+EasySocket::EasySocket(const SOCKET socket) {
+>>>>>>> ef2b0b3... Moved server/client abstractions out of library
 	int result = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (result != NO_ERROR)
 		throw std::exception("WSAStartup has failed");
@@ -45,6 +54,12 @@ EasySocket::~EasySocket() {
 	cleanWSA(); 
 }
 
+
+// --------------------------------- //
+//           Functionality           //
+// --------------------------------- //
+
+
 void EasySocket::Connect(const std::string host, const int port) {
 	// Create the server address
 	socketAddress.sin_port = htons(port);
@@ -55,6 +70,7 @@ void EasySocket::Connect(const std::string host, const int port) {
 		throw std::exception("Connect has failed");
 	}
 }
+
 
 std::vector<char> EasySocket::Receive(const int flags)
 {
@@ -67,12 +83,14 @@ std::vector<char> EasySocket::Receive(const int flags)
 	return buffer;
 }
 
+
 void EasySocket::Listen(const int backlog)
 {
 	if (listen(hSocket, backlog) == SOCKET_ERROR) {
 		throw std::exception("Listen has failed");
 	}
 }
+
 
 void EasySocket::Bind(const std::string host, const int port)
 {
@@ -86,6 +104,7 @@ void EasySocket::Bind(const std::string host, const int port)
 	}
 }
 
+
 EasySocket EasySocket::Accept()
 {
 	SOCKET hAccepted = SOCKET_ERROR;
@@ -97,14 +116,17 @@ EasySocket EasySocket::Accept()
 	return EasySocket(hAccepted, addr);
 }
 
+
 // --------------------------------- //
 //         Private Functions         //
 // --------------------------------- //
 
+// Closes the socket
 void EasySocket::cleanSocket() {
 	closesocket(hSocket);	// Close socket handle
 }
 
+// Performs cleanup of WSA
 void EasySocket::cleanWSA() {
 	WSACleanup();			// Clean up WSA information
 }
