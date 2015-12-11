@@ -35,12 +35,8 @@ EasySocket::EasySocket(const int addressFamily, const int type, const int protoc
 	socketAddress.sin_family = addressFamily;
 }
 
-<<<<<<< HEAD
-EasySocket::EasySocket(SOCKET socket, sockaddr_in addr) {
-=======
 
-EasySocket::EasySocket(const SOCKET socket) {
->>>>>>> ef2b0b3... Moved server/client abstractions out of library
+EasySocket::EasySocket(SOCKET socket, sockaddr_in addr) {
 	int result = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (result != NO_ERROR)
 		throw std::exception("WSAStartup has failed");
