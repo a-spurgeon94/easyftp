@@ -51,7 +51,7 @@ namespace easysock {
 
 		void Connect(const std::string host, const int port);
 		void Listen(const int backlog = SOMAXCONN);
-		void Bind(const std::string host, const int port, const int af = 0);
+		void Bind(const std::string host, const int port);
 
 		EasySocket Accept();
 	};
@@ -89,7 +89,7 @@ namespace easysock {
 	// Had to move this to header because of templates.
 	template <typename T>
 	int EasySocket::Send(const T buffer, const int flags) {
-		return send(hSocket, buffer.data(), buffer.size(), flags);
+		return send(hSocket, buffer.data(), (int) buffer.size(), flags);
 	}
 }
 #endif

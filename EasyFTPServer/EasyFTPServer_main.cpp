@@ -1,5 +1,5 @@
 #include <iostream>
-#include <EasySocket.hpp>
+#include "EasySocket.hpp"
 using namespace std;
 using namespace easysock;
 
@@ -7,7 +7,7 @@ int main() {
 	cout << "EasyFTPServer" << endl;
 
 	EasySocket server(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	server.Bind("127.0.0.1", 666, AF_INET);
+	server.Bind("127.0.0.1", 666);
 	server.Listen(1);
 	cout << "Waiting for connection!" << endl;
 	EasySocket socket = server.Accept();

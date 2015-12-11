@@ -59,7 +59,7 @@ void EasySocket::Connect(const std::string host, const int port) {
 std::vector<char> EasySocket::Receive(const int flags)
 {
 	std::vector<char> buffer(1024);
-	int numBytes = recv(hSocket, buffer.data(), buffer.size(), flags);
+	int numBytes = recv(hSocket, buffer.data(), (int) buffer.size(), flags);
 	if (numBytes == SOCKET_ERROR) {
 		throw std::exception("Receive has failed");
 	}
@@ -74,12 +74,12 @@ void EasySocket::Listen(const int backlog)
 	}
 }
 
-void EasySocket::Bind(const std::string host, const int port, const int address_family)
+void EasySocket::Bind(const std::string host, const int port)
 {
 	sockaddr_in serverAddress = { 0 };
-	serverAddress.sin_family = address_family;
+	serverAddress.sin_family = socketAddress.sin_family;
 	serverAddress.sin_port = htons(port);
-	inet_pton(address_family, host.c_str(), &serverAddress.sin_addr.s_addr);
+	inet_pton(serverAddress.sin_family, host.c_str(), &serverAddress.sin_addr.s_addr);
 
 	if (bind(hSocket, reinterpret_cast<SOCKADDR*>(&serverAddress), sizeof(serverAddress)) == SOCKET_ERROR) {
 		throw std::exception("Bind has failed");
