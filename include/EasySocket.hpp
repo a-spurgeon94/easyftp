@@ -19,12 +19,32 @@
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #include <vector>
+#include <sstream>
 
 // Need to link with Ws2_32.lib
 #pragma comment(lib, "ws2_32.lib")
 
 
 namespace easysock {
+
+	class EasySocketException : public std::exception
+	{
+	private:
+		std::string msg;
+	public:
+		int errorCode;
+		EasySocketException(const int& errorCode) {
+			this->errorCode = errorCode;
+			std::stringstream ss;
+			ss << "Winsock Error: " << errorCode;
+			msg = ss.str();
+		}
+		virtual const char* what() const throw()
+		{
+			return msg.c_str();
+		}
+	};
+
 	enum class Type { TCP = 1, UDP = 2 };
 
 
@@ -49,7 +69,7 @@ namespace easysock {
 
 		template <typename T>
 		int Send(const T buffer, const int flags = 0);
-		int Send(const char *buffer, const size_t size, const int flags = 0);
+		int Send(const char *buffer, const int size, const int flags = 0);
 		std::vector<char> Receive(const int flags = 0);
 
 		void Connect(const std::string host, const int port);
