@@ -77,6 +77,18 @@ void EasySocket::Connect(const std::string host, const int port) {
 }
 
 
+int EasySocket::Send(const char *buffer, const size_t size, const int flags)
+{
+	int bytesSent = send(hSocket, buffer, size, flags);
+	if (bytesSent != SOCKET_ERROR) {
+		return bytesSent;
+	}
+	else
+	{
+		throw std::exception("Send has failed");
+	}
+}
+
 std::vector<char> EasySocket::Receive(const int flags)
 {
 	std::vector<char> buffer(1024);

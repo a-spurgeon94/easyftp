@@ -49,6 +49,7 @@ namespace easysock {
 
 		template <typename T>
 		int Send(const T buffer, const int flags = 0);
+		int Send(const char *buffer, const size_t size, const int flags = 0);
 		std::vector<char> Receive(const int flags = 0);
 
 		void Connect(const std::string host, const int port);
@@ -64,7 +65,14 @@ namespace easysock {
 	// Had to move this to header because of templates.
 	template <typename T>
 	int EasySocket::Send(const T buffer, const int flags) {
-		return send(hSocket, buffer.data(), (int) buffer.size(), flags);
+		int bytesSent = send(hSocket, buffer.data(), (int) buffer.size(), flags);
+		if (bytesSent != SOCKET_ERROR) {
+			return bytesSent;
+		}
+		else
+		{
+			throw std::exception("Send has failed");
+		}
 	}
 }
 #endif
