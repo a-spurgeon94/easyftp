@@ -44,6 +44,15 @@ EasySocket::EasySocket(SOCKET socket, sockaddr_in addr) {
 	hSocket = socket;
 }
 
+std::string EasySocket::IpAddress() {
+	char hostname[NI_MAXHOST];
+	getnameinfo((sockaddr*) &socketAddress,
+		sizeof(socketAddress),
+		hostname,
+		NI_MAXHOST, nullptr, 0, NI_NUMERICHOST);
+	return std::string(hostname);
+}
+
 // Destructor
 EasySocket::~EasySocket() {
 	cleanSocket();	

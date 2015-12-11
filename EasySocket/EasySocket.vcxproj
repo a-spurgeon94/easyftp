@@ -153,8 +153,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EasyClient.cpp" />
-    <ClCompile Include="EasyServer.cpp" />
     <ClCompile Include="EasySocket.cpp" />
   </ItemGroup>
   <ItemGroup>

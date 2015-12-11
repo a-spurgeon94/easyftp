@@ -32,13 +32,14 @@ namespace easysock {
 	class EasySocket {
 		// Data
 	private:
+		EasySocket(SOCKET socket, sockaddr_in addr);
+
 		SOCKET hSocket;
 		WSAData wsaData;
 		sockaddr_in socketAddress;
 
 		void cleanSocket();
 		static void cleanWSA();
-		EasySocket(SOCKET socket, sockaddr_in addr);
 
 	public:
 
@@ -53,6 +54,8 @@ namespace easysock {
 		void Connect(const std::string host, const int port);
 		void Listen(const int backlog = SOMAXCONN);
 		void Bind(const std::string host, const int port);
+
+		std::string IpAddress();
 
 		EasySocket Accept();
 	};
