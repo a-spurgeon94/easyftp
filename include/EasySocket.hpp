@@ -36,7 +36,12 @@ namespace easysock {
 		EasySocketException(const int& errorCode) {
 			this->errorCode = errorCode;
 			std::stringstream ss;
-			ss << "Winsock Error: " << errorCode;
+
+			// Get error description
+			CHAR buffer[1024];
+			FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, errorCode, 0, buffer, sizeof buffer, nullptr);
+
+			ss << "Winsock Error #" << errorCode << ": " << buffer;
 			msg = ss.str();
 		}
 		virtual const char* what() const throw()
@@ -91,7 +96,7 @@ namespace easysock {
 		}
 		else
 		{
-			throw std::exception("Send has failed");
+			throw EasySocketException(WSAGetLastError());
 		}
 	}
 }
