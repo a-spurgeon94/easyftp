@@ -11,7 +11,7 @@ using namespace easysock;
 // makes the compiler complain that we need a default constructor in EasySocket so when they
 // are initialized, the members are too. This might suffice, not sure if it'll create copies
 // that get destroyed immediately anyway though.
-EasySocket::EasySocket() {
+EasySocket::EasySocket(): hSocket(INVALID_SOCKET) {
 	EasySocket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 }
 
@@ -56,7 +56,7 @@ void EasySocket::Connect(const std::string host, const int port) {
 	}
 }
 
-std::vector<char> EasySocket::Receive(const int flags) const
+std::vector<char> EasySocket::Receive(const int flags)
 {
 	std::vector<char> buffer(1024);
 	int numBytes = recv(hSocket, buffer.data(), buffer.size(), flags);
@@ -67,14 +67,14 @@ std::vector<char> EasySocket::Receive(const int flags) const
 	return buffer;
 }
 
-void EasySocket::Listen(const int backlog) const
+void EasySocket::Listen(const int backlog)
 {
 	if (listen(hSocket, backlog) == SOCKET_ERROR) {
 		throw std::exception("Listen has failed");
 	}
 }
 
-void EasySocket::Bind(const std::string host, const int port, const int address_family) const
+void EasySocket::Bind(const std::string host, const int port, const int address_family)
 {
 	sockaddr_in serverAddress = { 0 };
 	serverAddress.sin_family = address_family;
@@ -86,7 +86,7 @@ void EasySocket::Bind(const std::string host, const int port, const int address_
 	}
 }
 
-EasySocket EasySocket::Accept() const
+EasySocket EasySocket::Accept()
 {
 	SOCKET hAccepted = SOCKET_ERROR;
 	while (hAccepted == SOCKET_ERROR) {
@@ -99,7 +99,7 @@ EasySocket EasySocket::Accept() const
 //         Private Functions         //
 // --------------------------------- //
 
-void EasySocket::cleanSocket() const {
+void EasySocket::cleanSocket() {
 	closesocket(hSocket);	// Close socket handle
 }
 

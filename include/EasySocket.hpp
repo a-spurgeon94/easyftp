@@ -36,7 +36,7 @@ namespace easysock {
 		WSAData wsaData;
 		sockaddr_in socketAddress;
 
-		void cleanSocket() const;
+		void cleanSocket();
 		static void cleanWSA();
 		EasySocket(SOCKET);
 	public:
@@ -47,13 +47,13 @@ namespace easysock {
 
 		template <typename T>
 		int Send(const T buffer, const int flags = 0);
-		std::vector<char> Receive(const int flags = 0) const;
+		std::vector<char> Receive(const int flags = 0);
 
 		void Connect(const std::string host, const int port);
-		void Listen(const int backlog = SOMAXCONN) const;
-		void Bind(const std::string host, const int port, const int af = 0) const;
+		void Listen(const int backlog = SOMAXCONN);
+		void Bind(const std::string host, const int port, const int af = 0);
 
-		EasySocket Accept() const;
+		EasySocket Accept();
 	};
 
 
