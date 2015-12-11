@@ -38,11 +38,11 @@ namespace easysock {
 
 		void cleanSocket();
 		static void cleanWSA();
-		EasySocket(SOCKET);
 	public:
 
 		EasySocket();
 		EasySocket(const int addressFamily, const int type, const int protocol = 0);
+		EasySocket(SOCKET socket, sockaddr_in addr);
 		~EasySocket();
 
 		template <typename T>

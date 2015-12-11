@@ -31,11 +31,11 @@ EasySocket::EasySocket(const int addressFamily, const int type, const int protoc
 	socketAddress.sin_family = addressFamily;
 }
 
-EasySocket::EasySocket(const SOCKET socket) {
+EasySocket::EasySocket(SOCKET socket, sockaddr_in addr) {
 	int result = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (result != NO_ERROR)
 		throw std::exception("WSAStartup has failed");
-
+	socketAddress = addr;
 	hSocket = socket;
 }
 
@@ -89,10 +89,12 @@ void EasySocket::Bind(const std::string host, const int port)
 EasySocket EasySocket::Accept()
 {
 	SOCKET hAccepted = SOCKET_ERROR;
+	sockaddr_in addr;
+	int addrSize = sizeof addr;
 	while (hAccepted == SOCKET_ERROR) {
-		hAccepted = accept(hSocket, nullptr, nullptr);
+		hAccepted = accept(hSocket, (struct sockaddr *) &addr, &addrSize);
 	}
-	return EasySocket(hAccepted);
+	return EasySocket(hAccepted, addr);
 }
 
 // --------------------------------- //
