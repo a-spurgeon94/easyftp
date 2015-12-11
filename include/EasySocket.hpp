@@ -11,7 +11,7 @@
 /** @file EasySocket.h
 *   @author Anthony Spurgeon, Ryan Speets
 *   @date 08-12-2015
-*   @brief Wrapper header for the Socket library API
+*   @brief Wrapper for the Win32 Socket Library API - Header
 */
 
 #include <string>
@@ -28,7 +28,7 @@ namespace easysock {
 	enum class Type { TCP = 1, UDP = 2 };
 
 
-	// Encapsulates Socket library information and handles low-level interactions
+	// Encapsulates Win32 Socket Library information and handles startup, interactions, and cleanup
 	class EasySocket {
 		// Data
 	private:
@@ -38,11 +38,12 @@ namespace easysock {
 
 		void cleanSocket();
 		static void cleanWSA();
+		EasySocket(SOCKET socket, sockaddr_in addr);
+
 	public:
 
 		EasySocket();
 		EasySocket(const int addressFamily, const int type, const int protocol = 0);
-		EasySocket(SOCKET socket, sockaddr_in addr);
 		~EasySocket();
 
 		template <typename T>
@@ -56,35 +57,6 @@ namespace easysock {
 		EasySocket Accept();
 	};
 
-
-	// Encapsulates Server information related to sockets and responding to clients
-	class EasyServer {
-		// Data
-	private:
-		EasySocket easySocket;
-		std::string host;
-		int port;
-
-	public:
-
-		EasyServer() = delete;
-		EasyServer(std::string host, int port, Type type);
-		~EasyServer();
-	};
-
-
-	// Encapsulates Client information related to sockets and interacting with a server
-	class EasyClient {
-		// Data
-	private:
-		EasySocket easySocket;
-
-	public:
-
-		EasyClient() = delete;
-		EasyClient(std::string host, int port, Type type);
-		~EasyClient();
-	};
 
 	// Had to move this to header because of templates.
 	template <typename T>
