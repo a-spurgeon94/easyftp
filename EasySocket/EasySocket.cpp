@@ -77,7 +77,7 @@ void EasySocket::Connect(const std::string host, const int port) {
 }
 
 
-int EasySocket::Send(const char *buffer, const int size, const int flags)
+int EasySocket::SendBuffer(const char *buffer, const int size, const int flags)
 {
 	int bytesSent = send(hSocket, buffer, size, flags);
 	if (bytesSent != SOCKET_ERROR) {
