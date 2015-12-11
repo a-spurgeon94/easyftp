@@ -9,7 +9,7 @@ using namespace std::tr2::sys;
 int main() {
 	cout << "EasyFTPServer" << endl;
 
-	EasySocket server(AF_INET, SOCK_STREAM);
+	EasySocket server(AF_INET, ProtocolType::TCP);
 	server.Bind("0.0.0.0", 666);
 	server.Listen();
 	cout << "Waiting for connection!" << endl;

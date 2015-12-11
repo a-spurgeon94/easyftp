@@ -150,7 +150,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EasyClient.cpp" />
     <ClCompile Include="EasyFTPClient_main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EasyClient.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
