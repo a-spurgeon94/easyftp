@@ -7,7 +7,7 @@
 #include "EasyServer.hpp"
 
   // Constructor
-EasyServer::EasyServer(std::string host, int port, Type serverType) {
+EasyServer::EasyServer(int port, ProtocolType type) {
 
 }
 

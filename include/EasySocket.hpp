@@ -27,12 +27,18 @@
 
 namespace easysock {
 
-	class EasySocketException : public std::exception
-	{
+	// Predefined Protocols
+	enum class ProtocolType { TCP = SOCK_STREAM, UDP = SOCK_DGRAM };
+
+
+	// Encapsulates excpetions encountered when interacting with the Win32 Socket Library API
+	class EasySocketException : public std::exception {
 	private:
 		std::string msg;
+
 	public:
 		int errorCode;
+
 		EasySocketException(const int& errorCode) {
 			this->errorCode = errorCode;
 			std::stringstream ss;
@@ -44,18 +50,15 @@ namespace easysock {
 			ss << "Winsock Error #" << errorCode << ": " << buffer;
 			msg = ss.str();
 		}
-		virtual const char* what() const throw()
-		{
+
+		virtual const char* what() const throw() {
 			return msg.c_str();
 		}
 	};
 
-	enum class Type { TCP = 1, UDP = 2 };
-
 
 	// Encapsulates Win32 Socket Library information and handles startup, interactions, and cleanup
 	class EasySocket {
-		// Data
 	private:
 		EasySocket(SOCKET socket, sockaddr_in addr);
 
@@ -68,8 +71,8 @@ namespace easysock {
 
 	public:
 
-		EasySocket();
-		EasySocket(const int addressFamily, const int type, const int protocol = 0);
+		EasySocket() : hSocket(INVALID_SOCKET) {}
+		EasySocket(const int addressFamily, const ProtocolType type, const int protocol = 0);
 		~EasySocket();
 
 		template <typename T>
@@ -90,12 +93,11 @@ namespace easysock {
 	// Had to move this to header because of templates.
 	template <typename T>
 	int EasySocket::Send(const T buffer, const int flags) {
-		int bytesSent = send(hSocket, (char *) &buffer, sizeof(buffer), flags);
+		int bytesSent = send(hSocket, (char *)&buffer, sizeof(buffer), flags);
 		if (bytesSent != SOCKET_ERROR) {
 			return bytesSent;
 		}
-		else
-		{
+		else {
 			throw EasySocketException(WSAGetLastError());
 		}
 	}

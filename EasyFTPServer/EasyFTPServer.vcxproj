@@ -151,6 +151,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="EasyFTPServer_main.cpp" />
+    <ClCompile Include="EasyServer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EasyServer.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
