@@ -89,9 +89,9 @@ int EasySocket::SendBuffer(const char *buffer, const int size, const int flags)
 	}
 }
 
-std::vector<char> EasySocket::Receive(const int flags)
+std::vector<char> EasySocket::Receive(const int size, const int flags)
 {
-	std::vector<char> buffer(1024);
+	std::vector<char> buffer(size);
 	int numBytes = recv(hSocket, buffer.data(), (int) buffer.size(), flags);
 	if (numBytes == SOCKET_ERROR) {
 		throw EasySocketException(WSAGetLastError());

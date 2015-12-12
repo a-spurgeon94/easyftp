@@ -20,6 +20,7 @@
 #include <WS2tcpip.h>
 #include <vector>
 #include <sstream>
+#include <deque>
 
 // Need to link with Ws2_32.lib
 #pragma comment(lib, "ws2_32.lib")
@@ -62,6 +63,7 @@ namespace easysock {
 		SOCKET hSocket;
 		WSAData wsaData;
 		sockaddr_in socketAddress;
+		std::deque<char> buffer;
 
 		void cleanSocket();
 		static void cleanWSA();
@@ -75,7 +77,7 @@ namespace easysock {
 		template <typename T>
 		int Send(const T buffer, const int flags = 0);
 		int SendBuffer(const char *buffer, const int size, const int flags = 0);
-		std::vector<char> Receive(const int flags = 0);
+		std::vector<char> Receive(const int size, const int flags = 0);
 
 		void Connect(const std::string host, const int port);
 		void Listen(const int backlog = SOMAXCONN);
