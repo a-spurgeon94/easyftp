@@ -124,8 +124,12 @@ std::string easysock::EasySocket::ReadString()
 	// Get the string length
 	int size = htonl(reinterpret_cast<int&>(*Receive(4).data()));
 	// read it from the socket
-	std::vector<char> dataVec = Receive(size);
-	return std::string(dataVec.data(), size);
+	std::vector<char> data;
+	while (data.size() < size) {
+		std::vector<char> dataVec = Receive(size - static_cast<int>(data.size()));
+		data.insert(data.end(), dataVec.begin(), dataVec.end());
+	}
+	return std::string(data.data(), size);
 }
 
 void easysock::EasySocket::WriteString(std::string string)
