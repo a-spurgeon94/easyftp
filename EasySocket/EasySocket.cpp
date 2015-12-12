@@ -119,6 +119,23 @@ void EasySocket::Bind(const std::string host, const int port)
 	}
 }
 
+std::string easysock::EasySocket::ReadString()
+{
+	// Get the string length
+	int size = htonl(reinterpret_cast<int&>(*Receive(4).data()));
+	// read it from the socket
+	std::vector<char> dataVec = Receive(size);
+	return std::string(dataVec.data(), size);
+}
+
+void easysock::EasySocket::WriteString(std::string string)
+{
+	// prepend the string with the length
+	Send(htonl(static_cast<int>(string.size())));
+	// send the string data
+	SendBuffer(string.data(), static_cast<int>(string.size()));
+}
+
 
 EasySocket EasySocket::Accept()
 {

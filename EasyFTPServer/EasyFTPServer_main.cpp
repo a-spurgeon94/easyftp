@@ -4,22 +4,16 @@
 using namespace std;
 using namespace easysock;
 
-void sendString(EasySocket &s, string data) {
-	int size = htonl((long) data.size());
-	s.SendBuffer((char*)&size, sizeof(size));
-	s.SendBuffer(data.data(), (int) data.size());
-}
-
 int main() {
 	try {
 		cout << "EasyFTPServer" << endl;
-		EasySocket x(AF_INET, ProtocolType::TCP);
-		x.Bind("0.0.0.0", 1234);
-		x.Listen();
+		EasySocket server(AF_INET, ProtocolType::TCP);
+		server.Bind("0.0.0.0", 1234);
+		server.Listen();
 		while (true) {
-			auto b = x.Accept();
+			EasySocket client = server.Accept();
 
-			sendString(b, "hello");
+			client.WriteString("hello");
 		}
 	}
 	catch (EasySocketException &e) {

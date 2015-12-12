@@ -86,6 +86,9 @@ namespace easysock {
 		void Listen(const int backlog = SOMAXCONN);
 		void Bind(const std::string host, const int port);
 
+		std::string ReadString();
+		void WriteString(std::string string);
+
 		std::string IpAddress();
 
 		EasySocket Accept();
