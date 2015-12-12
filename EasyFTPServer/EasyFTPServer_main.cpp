@@ -4,7 +4,9 @@
 using namespace std;
 using namespace easysock;
 
-int main() {
+int main(int argc, char* argv[]) {
+
+
 	try {
 		cout << "EasyFTPServer" << endl;
 		EasySocket server(AF_INET, ProtocolType::TCP);
@@ -12,8 +14,9 @@ int main() {
 		server.Listen();
 		while (true) {
 			EasySocket client = server.Accept();
-
-			client.WriteString("hello");
+			while (true) {
+				cout << client.ReadString() << endl;
+			}
 		}
 	}
 	catch (EasySocketException &e) {
