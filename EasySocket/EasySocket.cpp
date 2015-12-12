@@ -15,17 +15,15 @@ using namespace easysock;
 // makes the compiler complain that we need a default constructor in EasySocket so when they
 // are initialized, the members are too. This might suffice, not sure if it'll create copies
 // that get destroyed immediately anyway though.
-EasySocket::EasySocket(): hSocket(INVALID_SOCKET) {
-	EasySocket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-}
+
 
 // Constructor
-EasySocket::EasySocket(const int addressFamily, const int type, const int protocol) {
+EasySocket::EasySocket(const int addressFamily, const ProtocolType type, const int protocol) {
 	int result = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (result != NO_ERROR)
 		throw EasySocketException(WSAGetLastError());
 
-	hSocket = socket(addressFamily, type, protocol);
+	hSocket = socket(addressFamily, static_cast<int>(type), protocol);
 
 	if (hSocket == INVALID_SOCKET) {
 		throw EasySocketException(WSAGetLastError());
@@ -47,9 +45,9 @@ EasySocket::EasySocket(SOCKET socket, sockaddr_in addr) {
 std::string EasySocket::IpAddress() {
 	char hostname[NI_MAXHOST];
 	getnameinfo((sockaddr*) &socketAddress,
-		sizeof(socketAddress),
-		hostname,
-		NI_MAXHOST, nullptr, 0, NI_NUMERICHOST);
+				sizeof(socketAddress),
+				hostname,
+				NI_MAXHOST, nullptr, 0, NI_NUMERICHOST);
 	return std::string(hostname);
 }
 

@@ -8,6 +8,7 @@
 */
 
 #include <EasySocket.hpp>
+using namespace std;
 using namespace easysock;
 
 // Encapsulates Client information related to sockets and interacting with a server
@@ -15,14 +16,17 @@ class EasyClient {
 	// Data
 private:
 	EasySocket easySocket;
-	std::string host;
+	ProtocolType type;
+	string host;
 	int port;
-	Type type;
 
 public:
 
 	EasyClient() = delete;
-	EasyClient(std::string host, int port, Type type);
+	EasyClient(int port, ProtocolType type = ProtocolType::TCP);
 	~EasyClient();
+	
+	void Connect(std::string host);
+	
 };
 #endif

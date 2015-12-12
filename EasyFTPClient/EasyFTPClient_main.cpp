@@ -11,7 +11,7 @@ string recvString(EasySocket &socket) {
 }
 
 int main() {
-	EasySocket socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	EasySocket socket(AF_INET, ProtocolType::TCP);
 	socket.Connect("127.0.0.1", 1234);	
 	cout << recvString(socket) << endl;
 }
