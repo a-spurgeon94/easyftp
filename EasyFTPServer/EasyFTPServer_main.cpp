@@ -1,5 +1,5 @@
 #include <iostream>
-#include "EasySocket.hpp"
+#include <EasySocket.hpp>
 #include <string>
 #include <sstream>
 #include <filesystem>
@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
 		while (true) {
 			try {
 				EasySocket client = server.Accept();
-				path dir = "c:\\";
+				path dir = ".";
 				while (true) {
 					string input = client.ReadString();
 

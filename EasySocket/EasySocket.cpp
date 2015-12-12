@@ -11,12 +11,6 @@ using namespace easysock;
 //            Constructors           //
 // --------------------------------- //
 
-// Default constructor - currently, having a member of EasySocket in EasyServer and EasyClient
-// makes the compiler complain that we need a default constructor in EasySocket so when they
-// are initialized, the members are too. This might suffice, not sure if it'll create copies
-// that get destroyed immediately anyway though.
-
-
 // Constructor
 EasySocket::EasySocket(const int addressFamily, const ProtocolType type, const int protocol) {
 	int result = WSAStartup(MAKEWORD(2, 2), &wsaData);
@@ -122,7 +116,7 @@ void EasySocket::Bind(const std::string host, const int port)
 std::string easysock::EasySocket::ReadString()
 {
 	// Get the string length
-	int size = htonl(reinterpret_cast<int&>(*Receive(4).data()));
+	unsigned size = htonl(reinterpret_cast<int&>(*Receive(4).data()));
 	// read it from the socket
 	std::vector<char> data;
 	while (data.size() < size) {

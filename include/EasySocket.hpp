@@ -95,7 +95,6 @@ namespace easysock {
 	};
 
 
-	// Had to move this to header because of templates.
 	template <typename T>
 	int EasySocket::Send(const T buffer, const int flags) {
 		int bytesSent = send(hSocket, (char *)&buffer, sizeof(buffer), flags);

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "EasyClient.hpp"
+#include <EasySocket.hpp>
 #include <fstream>
 using namespace std;
 using namespace easysock;
