@@ -27,40 +27,46 @@ int main(int argc, char* argv[]) {
 		server.Bind("0.0.0.0", 1234);
 		server.Listen();
 		while (true) {
-			EasySocket client = server.Accept();
-			path dir = "c:\\";
-			while (true) {
-				string input = client.ReadString();
-				
-				vector<string> params;
-				split(input, ' ', params);
-				string command = params[0];
-				
-				if (command == "dir") {
-					cout << "Listing files" << endl;
-					stringstream files;
-					
-					for (auto it = directory_iterator(dir); it != directory_iterator(); ++it)
-					{
-						files << it->path().filename() << endl;
+			try {
+				EasySocket client = server.Accept();
+				path dir = "c:\\";
+				while (true) {
+					string input = client.ReadString();
+
+					vector<string> params;
+					split(input, ' ', params);
+					string command = params[0];
+
+					if (command == "dir") {
+						stringstream files;
+						files << "Files in " << dir << endl;
+
+						for (auto it = directory_iterator(dir); it != directory_iterator(); ++it)
+						{
+							files << it->path().filename() << endl;
+						}
+						client.WriteString(files.str());
 					}
-					client.WriteString(files.str());
-				}
-				if (command == "cd") {
-					string newDir = params[1];
-					cout << newDir << endl;
-					dir /= newDir;
-					cout << dir.string() << endl;
-					client.WriteString(dir.string());
-				}
-				if (command == "get") {
-					path filePath = dir / params[1];
-					ifstream file(filePath, ios::binary);
-					client.WriteString(std::string((std::istreambuf_iterator<char>(file)),
-						std::istreambuf_iterator<char>()));
+					if (command == "cd") {
+						string newDir = params[1];
+						cout << newDir << endl;
+						dir /= newDir;
+						cout << dir.string() << endl;
+						client.WriteString(dir.string());
+					}
+					if (command == "get") {
+						path filePath = dir / params[1];
+						ifstream file(filePath, ios::binary);
+						client.WriteString(std::string((std::istreambuf_iterator<char>(file)),
+							std::istreambuf_iterator<char>()));
+					}
 				}
 			}
+			catch (EasySocketException &e) {
+				cout << "Socket error: " << e.what() << endl;
+			}
 		}
+		
 	}
 	catch (EasySocketException &e) {
 		cout << e.what();

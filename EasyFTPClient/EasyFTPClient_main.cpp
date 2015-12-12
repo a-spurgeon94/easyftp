@@ -56,8 +56,7 @@ int main(int argc, char* argv[]) {
 				break;
 			if (command == "dir") {
 				socket.WriteString(command);
-				cout << "Listing files" << endl;
-				cout << socket.ReadString();
+				cout << socket.ReadString() << endl;
 			}
 			if (command == "cd") {
 				if (params.size() < 2) {
@@ -79,6 +78,14 @@ int main(int argc, char* argv[]) {
 				ofstream filestream(params[1], ios::binary);
 				cout << "File successfuly downloaded" << endl;
 				filestream << fileContents;
+			}
+			if (command == "help") {
+				cout << "Help" << endl;
+				cout << "====" << endl;
+				cout << "Commands:" << endl;
+				cout << "dir  : Lists files in current directory" << endl;
+				cout << "cd   : Changes current directory to chosen directory" << endl;
+				cout << "get  : Downloads file to current working directory" << endl;
 			}
 		}
 	}
