@@ -1,5 +1,6 @@
 #include <iostream>
 #include "EasyClient.hpp"
+#include <fstream>
 using namespace std;
 using namespace easysock;
 
@@ -59,10 +60,25 @@ int main(int argc, char* argv[]) {
 				cout << socket.ReadString();
 			}
 			if (command == "cd") {
+				if (params.size() < 2) {
+					cout << "Missing parameter directory" << endl;
+					continue;
+				}
 				socket.WriteString(input);
-				cout << params[1];
 				cout << "Changing directory" << endl;
-				cout << socket.ReadString();
+				cout << "Current directory: " << socket.ReadString() << endl;
+				cout << endl;
+			}
+			if (command == "get") {
+				if (params.size() < 2) {
+					cout << "Missing parameter filename" << endl;
+					continue;
+				}
+				socket.WriteString(input);
+				string fileContents = socket.ReadString();
+				ofstream filestream(params[1], ios::binary);
+				cout << "File successfuly downloaded" << endl;
+				filestream << fileContents;
 			}
 		}
 	}

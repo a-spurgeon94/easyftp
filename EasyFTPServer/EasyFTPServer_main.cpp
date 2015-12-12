@@ -3,6 +3,7 @@
 #include <string>
 #include <sstream>
 #include <filesystem>
+#include <fstream>
 using namespace std;
 using namespace easysock;
 using namespace std::tr2::sys;
@@ -51,6 +52,12 @@ int main(int argc, char* argv[]) {
 					dir /= newDir;
 					cout << dir.string() << endl;
 					client.WriteString(dir.string());
+				}
+				if (command == "get") {
+					path filePath = dir / params[1];
+					ifstream file(filePath, ios::binary);
+					client.WriteString(std::string((std::istreambuf_iterator<char>(file)),
+						std::istreambuf_iterator<char>()));
 				}
 			}
 		}
