@@ -1,31 +1,28 @@
 #include <iostream>
 #include "EasySocket.hpp"
-#include <sstream>
-#include <filesystem>
+#include <string>
 using namespace std;
 using namespace easysock;
-using namespace std::tr2::sys;
+
+void sendString(EasySocket &s, string data) {
+	int size = htonl((long) data.size());
+	s.SendBuffer((char*)&size, sizeof(size));
+	s.SendBuffer(data.data(), data.size());
+}
 
 int main() {
-	cout << "EasyFTPServer" << endl;
+	try {
+		cout << "EasyFTPServer" << endl;
+		EasySocket x(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+		x.Bind("0.0.0.0", 1234);
+		x.Listen();
+		while (true) {
+			auto b = x.Accept();
 
-	EasySocket server(AF_INET, SOCK_STREAM);
-	server.Bind("0.0.0.0", 666);
-	server.Listen();
-	cout << "Waiting for connection!" << endl;
-	size_t count = 0;
-	while (true) {
-		EasySocket socket = server.Accept();
-		cout << "Connection accepted!" << endl;
-		socket.Receive();
-		cout << socket.IpAddress() << endl;
-		socket.Send(string("HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n"));
-		stringstream msg;
-		msg << "<ul>" << endl;
-		for (auto it = directory_iterator("."); it != directory_iterator(); ++it) {
-			msg << "<li><a href=\"#\">" << it->path() << "</a></li>" << endl;
+			sendString(b, "hello");
 		}
-		msg << "</ul>";
-		socket.Send(msg.str());
+	}
+	catch (EasySocketException &e) {
+		cout << e.what();
 	}
 }

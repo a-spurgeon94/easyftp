@@ -3,11 +3,15 @@
 using namespace std;
 using namespace easysock;
 
+string recvString(EasySocket &socket) {
+	int size = htonl((int&)*socket.Receive(4).data());
+	vector<char> dataVec = socket.Receive(size);
+	string out(dataVec.data(), size);
+	return out;
+}
+
 int main() {
 	EasySocket socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	socket.Connect("74.125.224.72", 80);
-	socket.Send(string("GET / HTTP/1.1\nHost: google.com\n\n"));
-	std::vector<char> output = socket.Receive();
-	cout << output.data();
-	cout << "EasyFTPClient" << endl;
+	socket.Connect("127.0.0.1", 1234);	
+	cout << recvString(socket) << endl;
 }
