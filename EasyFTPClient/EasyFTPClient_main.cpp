@@ -3,12 +3,22 @@
 using namespace std;
 using namespace easysock;
 
+// From http://stackoverflow.com/questions/236129/split-a-string-in-c
+std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
+	std::stringstream ss(s);
+	std::string item;
+	while (std::getline(ss, item, delim)) {
+		elems.push_back(item);
+	}
+	return elems;
+}
+
 int main(int argc, char* argv[]) {
 	vector<string> args(argv, argv + argc);
 
 	cout << "EasyFTP client" << endl;
 
-	if (args.size() < 1) {
+	if (args.size() < 2) {
 		cout << "Error: Missing ip address parameter" << endl;
 		cout << endl;
 		cout << "Usage: " << args[0] << " [ip-address]" << endl;
@@ -32,11 +42,28 @@ int main(int argc, char* argv[]) {
 	try {
 		while (true) {
 			cout << "> ";
-			string command;
-			getline(cin, command);
+			string input;
+			getline(cin, input);
+			vector<string> params;
+			split(input, ' ', params);
+			if (params.size() < 1)
+				continue;
+			
+			string command = params[0];
+
 			if (command == "exit")
 				break;
-			socket.WriteString(command);
+			if (command == "dir") {
+				socket.WriteString(command);
+				cout << "Listing files" << endl;
+				cout << socket.ReadString();
+			}
+			if (command == "cd") {
+				socket.WriteString(input);
+				cout << params[1];
+				cout << "Changing directory" << endl;
+				cout << socket.ReadString();
+			}
 		}
 	}
 	catch (EasySocketException &e) {
