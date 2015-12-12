@@ -7,7 +7,7 @@ using namespace easysock;
 void sendString(EasySocket &s, string data) {
 	int size = htonl((long) data.size());
 	s.SendBuffer((char*)&size, sizeof(size));
-	s.SendBuffer(data.data(), size);
+	s.SendBuffer(data.data(), data.size());
 }
 
 int main() {
